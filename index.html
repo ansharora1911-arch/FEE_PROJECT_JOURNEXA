@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Meta tags for character encoding and responsive viewport -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Journexa — AI-powered personal journal that reads your mood." />
+  <title>Journexa — AI-Powered Personal Journal</title>
+
+  <!-- Google Fonts — Inter for clean, modern look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Chart.js CDN — for the Weekly Mood Tracker chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Link to our external CSS file -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <!-- Premium Glowing Animated Background Aura Blobs -->
+  <div class="bg-glow-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="blob blob-4"></div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN 1: AUTHENTICATION & PERSONALIZATION (First Screen)
+       Allows users to sign in to their existing account or sign up.
+       If signing up, guides them through setting up their custom name and preferences.
+       ================================================================ -->
+  <div class="screen screen-welcome" id="welcome-screen">
+    <div class="welcome-card">
+      <span class="welcome-icon">📔</span>
+      <h1 class="welcome-title">Welcome to <span class="highlight">Journexa</span></h1>
+      <p class="welcome-subtitle">Your AI-powered personal journal that understands your mood.</p>
+
+      <!-- Auth Tabs Group -->
+      <div class="auth-tabs" id="auth-tabs">
+        <button class="auth-tab active" id="tab-signin">Sign In</button>
+        <button class="auth-tab" id="tab-signup">Sign Up</button>
+      </div>
+
+      <!-- Sign In Form -->
+      <form class="auth-form" id="signin-form">
+        <div class="form-group">
+          <label for="signin-email" class="form-label">Email Address</label>
+          <input type="email" id="signin-email" class="form-input" placeholder="e.g. ansh@example.com" required />
+        </div>
+        <div class="form-group password-group">
+          <label for="signin-password" class="form-label">Password</label>
+          <div class="password-input-container">
+            <input type="password" id="signin-password" class="form-input" placeholder="••••••••" required />
+            <button type="button" class="password-toggle-btn" aria-label="Toggle password visibility">👁️</button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+        <p class="auth-switch-text">New to Journexa? <a href="#" id="switch-to-signup">Create an account</a></p>
+      </form>
+
+      <!-- Sign Up Form (Credentials Step) -->
+      <form class="auth-form" id="signup-form" style="display: none;">
+        <div class="form-group">
+          <label for="signup-name" class="form-label">Your Name</label>
+          <input type="text" id="signup-name" class="form-input" placeholder="e.g. Ansh" required />
+        </div>
+        <div class="form-group">
+          <label for="signup-email" class="form-label">Email Address</label>
+          <input type="email" id="signup-email" class="form-input" placeholder="e.g. ansh@example.com" required />
+        </div>
+        <div class="form-group password-group">
+          <label for="signup-password" class="form-label">Password</label>
+          <div class="password-input-container">
+            <input type="password" id="signup-password" class="form-input" placeholder="Min. 6 characters" required minlength="6" />
+            <button type="button" class="password-toggle-btn" aria-label="Toggle password visibility">👁️</button>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Continue to Personalization →</button>
+        <p class="auth-switch-text">Already have an account? <a href="#" id="switch-to-signin">Sign In</a></p>
+      </form>
+
+      <!-- Personalization Form (Step 2 of Sign Up, hidden by default) -->
+      <div id="personalization-step" style="display: none;">
+        <div class="step-header">
+          <button type="button" class="btn-back" id="back-to-signup">← Back</button>
+          <h2 class="step-title">Tell us about yourself, <span id="personalize-user-name" class="highlight">Friend</span>!</h2>
+          <p class="step-subtitle">Select things that bring you joy. Journexa will suggest them when your mood is low.</p>
+        </div>
+
+        <form class="personalize-form" id="personalize-form">
+          <!-- Things That Make You Happy -->
+          <div class="form-group">
+            <label class="form-label">What makes you happy? (select all that apply)</label>
+            <div class="happy-things-grid">
+              <label class="happy-chip"><input type="checkbox" name="happy-things" value="Listening to music 🎵" /> 🎵
+                Music</label>
+              <label class="happy-chip"><input type="checkbox" name="happy-things" value="Talking to friends 👫" /> 👫
+                Friends</label>
+              <label class="happy-chip"><input type="checkbox" name="happy-things"
+                  value="Going for a walk in nature 🌿" /> 🌿 Nature</label>
+              <label class="happy-chip"><input type="checkbox" name="happy-things" value="Eating your favorite food 🍕" />
+                🍕 Food</label>
+              <label class="happy-chip"><input type="checkbox" name="happy-things" value="Playing games 🎮" /> 🎮
+                Games</label>
+              <label class="happy-chip"><input type="checkbox" name="happy-things" value="Watching movies or shows 🎬" />
+                🎬 Movies</label>
+              <label class="happy-chip"><input type="checkbox" name="happy-things" value="Reading a book 📖" /> 📖
+                Reading</label>
+              <label class="happy-chip"><input type="checkbox" name="happy-things" value="Working out or exercising 💪" />
+                💪 Exercise</label>
+              <label class="happy-chip"><input type="checkbox" name="happy-things" value="Drawing or painting 🎨" /> 🎨
+                Art</label>
+              <label class="happy-chip"><input type="checkbox" name="happy-things" value="Cooking something nice 🍳" /> 🍳
+                Cooking</label>
+            </div>
+          </div>
+
+          <!-- Custom happy thing -->
+          <div class="form-group">
+            <label for="custom-happy" class="form-label">Anything else that makes you happy? (optional)</label>
+            <input type="text" id="custom-happy" class="form-input" placeholder="e.g. Playing guitar, Traveling..." />
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Get Started →</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       SCREEN 2: MAIN APPLICATION
+       Contains header, navigation, all sections, and footer.
+       Hidden until user completes the personalization form.
+       ================================================================ -->
+  <div class="screen screen-app" id="app-screen" style="display: none;">
+
+    <!-- ===================== HEADER & NAVIGATION ===================== -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="#" class="logo" id="logo">
+          <span class="logo-icon">📔</span> Journexa
+        </a>
+
+        <!-- Hamburger button for mobile -->
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+
+        <!-- Navigation -->
+        <nav class="main-nav" id="main-nav">
+          <ul class="nav-list">
+            <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
+            <li><a href="#add-entry" class="nav-link" data-section="add-entry">Add Entry</a></li>
+            <li><a href="#mood-tracker" class="nav-link" data-section="mood-tracker">Mood Tracker</a></li>
+            <li><a href="#about" class="nav-link" data-section="about">About</a></li>
+            <li><a href="#" class="nav-link logout-btn" id="logout-nav-btn">Log Out</a></li>
+          </ul>
+        </nav>
+
+        <!-- Theme Toggle Button -->
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle theme">
+          <span class="theme-icon theme-icon-sun" id="theme-icon-sun">☀️</span>
+          <span class="theme-icon theme-icon-moon" id="theme-icon-moon" style="display:none;">🌙</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ===================== MAIN CONTENT ===================== -->
+    <main class="main-content">
+
+      <!-- =================== HOME / DASHBOARD =================== -->
+      <section class="section" id="home">
+        <div class="container">
+          <!-- Personalized greeting -->
+          <div class="greeting" id="greeting">
+            <h1>Good morning, <span class="highlight" id="display-name">User</span>! 👋</h1>
+            <p class="greeting-sub">Write a journal entry and let AI analyze your mood.</p>
+          </div>
+
+          <!-- Motivational Quote (fetched from API) -->
+          <div class="quote-card" id="quote-card">
+            <p class="quote-text" id="quote-text">Loading a quote for you...</p>
+            <p class="quote-author" id="quote-author"></p>
+            <button class="btn btn-outline btn-sm" id="new-quote-btn">New Quote</button>
+          </div>
+
+          <!-- Search bar -->
+          <div class="search-bar">
+            <input type="text" id="search-input" class="search-input" placeholder="Search your entries..." />
+          </div>
+
+          <h2 class="section-heading">Your Journal Entries</h2>
+
+          <!-- Entries grid (CSS Grid) -->
+          <div class="entries-grid" id="entries-grid"></div>
+
+          <!-- Empty state -->
+          <div class="empty-state" id="empty-state">
+            <p class="empty-icon">📝</p>
+            <p>No entries yet. Write your first journal entry!</p>
+            <a href="#add-entry" class="btn btn-primary" data-section="add-entry">Write Your First Entry</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================== ADD ENTRY SECTION =================== -->
+      <section class="section" id="add-entry">
+        <div class="container">
+          <h2 class="section-heading">New Journal Entry</h2>
+
+          <form class="entry-form" id="entry-form">
+            <div class="form-group">
+              <label for="entry-title" class="form-label">Title</label>
+              <input type="text" id="entry-title" class="form-input" placeholder="Give your entry a title..."
+                required />
+            </div>
+
+            <div class="form-group">
+              <label for="entry-content" class="form-label">Write about your day...</label>
+              <textarea id="entry-content" class="form-input form-textarea" rows="8"
+                placeholder="How was your day? What happened? How do you feel?..." required></textarea>
+            </div>
+
+            <p class="char-count" id="char-count">0 characters</p>
+
+            <!-- AI info note -->
+            <div class="ai-note">
+              <span>🤖</span>
+              <p>Our AI will analyze your entry to detect your mood and show personalized suggestions.</p>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Save & Analyze Mood</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- =================== MOOD TRACKER SECTION =================== -->
+      <section class="section" id="mood-tracker">
+        <div class="container">
+          <h2 class="section-heading">AI Mood Tracker</h2>
+          <p class="section-desc">This chart is <strong>automatically updated by AI</strong> after reading each journal
+            entry.</p>
+
+          <!-- Chart.js canvas -->
+          <div class="chart-wrapper">
+            <canvas id="mood-chart"></canvas>
+          </div>
+
+          <!-- Mood history log -->
+          <div class="mood-history" id="mood-history">
+            <h3>Mood History</h3>
+            <div class="mood-history-list" id="mood-history-list">
+              <!-- Filled by JavaScript -->
+            </div>
+          </div>
+
+          <div class="chart-actions">
+            <button class="btn btn-outline-dark btn-sm" id="reset-mood-btn">Reset Mood Data</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- =================== ABOUT SECTION =================== -->
+      <section class="section" id="about">
+        <div class="container">
+          <h2 class="section-heading">About Journexa</h2>
+
+          <div class="about-grid">
+            <div class="about-card">
+              <span class="about-icon">🤖</span>
+              <h3>AI Mood Detection</h3>
+              <p>Our AI reads your journal entries and detects your mood using keyword-based sentiment analysis — no
+                external AI API needed.</p>
+            </div>
+            <div class="about-card">
+              <span class="about-icon">😊</span>
+              <h3>Happy Things</h3>
+              <p>When you're feeling down, Journexa reminds you of things that make YOU happy — personalized to your
+                preferences.</p>
+            </div>
+            <div class="about-card">
+              <span class="about-icon">📊</span>
+              <h3>Auto Mood Chart</h3>
+              <p>The weekly mood chart is updated automatically by AI after every journal entry. No manual mood logging
+                needed.</p>
+            </div>
+            <div class="about-card">
+              <span class="about-icon">💾</span>
+              <h3>Local Storage</h3>
+              <p>All data stays in your browser. No server, no signup, no data sharing — 100% private.</p>
+            </div>
+          </div>
+
+          <div class="tech-stack">
+            <h3>Technologies Used</h3>
+            <ul class="tech-list">
+              <li>HTML5 — Semantic structure (header, nav, main, section, footer)</li>
+              <li>CSS3 — Flexbox, Grid, Media Queries, Gradient Background</li>
+              <li>JavaScript (ES6) — DOM, Events, localStorage, Fetch API</li>
+              <li>Chart.js — Weekly mood chart visualization</li>
+              <li>Sentiment Analysis — AI keyword-based mood detection</li>
+              <li>DummyJSON API — Random motivational quotes</li>
+            </ul>
+          </div>
+
+          <div class="reset-section">
+            <button class="btn btn-danger btn-sm" id="reset-all-btn">🗑️ Reset All Data &amp; Start Over</button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="site-footer">
+      <div class="container">
+        <p>&copy; 2026 Journexa. Built with ❤️ for learning.</p>
+      </div>
+    </footer>
+  </div>
+
+  <!-- =================== AI MOOD RESULT POPUP ===================
+       This overlay popup appears after AI analyzes a journal entry.
+       It shows detected mood + happy-thing suggestions if mood is low.
+       Enhanced with "Make Your Day Better" section. -->
+  <div class="mood-popup-overlay" id="mood-popup-overlay">
+    <div class="mood-popup" id="mood-popup">
+      <button class="popup-close" id="popup-close">&times;</button>
+
+      <!-- Detected mood display -->
+      <div class="popup-mood-section">
+        <p class="popup-label">AI Detected Mood</p>
+        <div class="popup-mood-emoji" id="popup-mood-emoji">😊</div>
+        <h2 class="popup-mood-name" id="popup-mood-name">Happy</h2>
+        <p class="popup-mood-detail" id="popup-mood-detail">Based on the positive words in your entry.</p>
+      </div>
+
+      <!-- Happy things suggestions (shown only for negative moods) -->
+      <div class="popup-happy-section" id="popup-happy-section" style="display: none;">
+        <h3>💛 Things that make YOU happy:</h3>
+        <p class="popup-happy-intro">We noticed you might be feeling down. Here are some things you said make you happy
+          — maybe try one right now?</p>
+        <ul class="popup-happy-list" id="popup-happy-list">
+          <!-- Filled by JS -->
+        </ul>
+      </div>
+
+      <!-- ========= MAKE YOUR DAY BETTER - Enhanced Section ========= -->
+      <div class="popup-better-section" id="popup-better-section">
+        <div class="popup-better-header">
+          <span class="popup-better-icon">✨</span>
+          <h3>Make Your Day Better</h3>
+          <p class="popup-better-subtitle" id="popup-better-subtitle">Here are some personalized suggestions just for
+            you.</p>
+        </div>
+
+        <!-- Activity Suggestion Cards -->
+        <div class="popup-activity-cards" id="popup-activity-cards">
+          <!-- Filled by JS -->
+        </div>
+
+        <!-- Breathing Exercise Widget -->
+        <div class="popup-breathing" id="popup-breathing">
+          <h4>🫁 Quick Breathing Exercise</h4>
+          <p class="breathing-instruction">Take a deep breath, hold, and release. Click below to start a guided cycle.
+          </p>
+          <div class="breathing-circle" id="breathing-circle">
+            <span class="breathing-text" id="breathing-text">Start</span>
+          </div>
+          <p class="breathing-timer" id="breathing-timer"></p>
+        </div>
+
+        <!-- Motivational Tip -->
+        <div class="popup-tip-card" id="popup-tip-card">
+          <span class="tip-icon">💡</span>
+          <p class="tip-text" id="popup-tip-text">Loading a tip...</p>
+        </div>
+      </div>
+
+      <!-- Mood logged confirmation -->
+      <div class="popup-chart-note">
+        <p>📊 Your mood chart has been automatically updated!</p>
+      </div>
+
+      <button class="btn btn-primary btn-block" id="popup-ok-btn">Got it! 👍</button>
+    </div>
+  </div>
+
+  <!-- Toast notification container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Custom Iframe-Safe Confirmation Modal -->
+  <div class="custom-confirm-overlay" id="custom-confirm-overlay" style="display: none;">
+    <div class="custom-confirm-card">
+      <div class="custom-confirm-icon" id="custom-confirm-icon">⚠️</div>
+      <h3 class="custom-confirm-title" id="custom-confirm-title">Are you sure?</h3>
+      <p class="custom-confirm-message" id="custom-confirm-message">Do you really want to proceed with this action?</p>
+      <div class="custom-confirm-actions">
+        <button type="button" class="btn btn-outline" id="custom-confirm-cancel">Cancel</button>
+        <button type="button" class="btn btn-danger" id="custom-confirm-ok">Yes, Proceed</button>
+      </div>
+    </div>
+  </div>
+  <!-- Link to our external JavaScript file -->
+  <script src="script.js"></script>
+</body>
+
+</html>
